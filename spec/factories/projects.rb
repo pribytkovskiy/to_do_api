@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :project do
-    name { "MyString" }
+    name { FFaker::Lorem.sentence }
   end
 end

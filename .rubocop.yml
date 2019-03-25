@@ -2,11 +2,12 @@ require: rubocop-rspec
 AllCops:
   Excludes:
     - db/*
-    - db/migrate/*
+    - db/**/*
     - bin/*
     - Gemfile
     - config/**/*
     - config/*
+    - spec/rails_helper.rb
 
 RSpec/MessageChain:
   Enabled: false
