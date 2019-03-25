@@ -37,3 +37,6 @@ Metrics/MethodLength:
 
 Documentation:
   Enabled: false
+
+RSpec/ContextWording:
+  Enabled: false
