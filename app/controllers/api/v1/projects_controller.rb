@@ -1,6 +1,6 @@
 module Api::V1
   class ProjectsController < ApplicationController
-    before_action :set_project, only: %i[update destroy]
+    before_action :authenticate_user!
     load_and_authorize_resource
 
     resource_description do
@@ -10,14 +10,6 @@ module Api::V1
       formats %w[json]
     end
 
-    def_param_group :project do
-      param :data, Hash, required: true do
-        param :attributes, Hash, required: true do
-          param :name, String, required: true
-        end
-      end
-    end
-
     api :GET, '/projects', "Get all user's projects"
     def index
       @projects = Project.where(user_id: current_api_v1_user.id)
@@ -25,8 +17,8 @@ module Api::V1
       render json: @projects
     end
 
-    api :POST, '/projects/:id'
-    param :id, :number
+    api :POST, '/projects/:id', "Create new user's project"
+    param :name, String, required: true
     def create
       @project = Project.new(project_params)
       @project.user_id = current_api_v1_user.id
@@ -37,19 +29,21 @@ module Api::V1
       end
     end
 
-    api :GET, '/users/:id'
+    api :PATCH, '/projects/:id', "Update specific user's project"
     param :id, :number
-    def update      
-         if @project.update(project_params)        
-            render json: @project
-         else        
-            render json: @project.errors, status: :unprocessable_entity      
-         end
+    def update
+      set_project
+      if @project.update(project_params)        
+        render json: @project
+      else        
+        render json: @project.errors, status: :unprocessable_entity      
+      end
     end
 
-    api :GET, '/users/:id'
+    api :DELETE, '/projects/:id', "Delete specific user's project"
     param :id, :number
     def destroy
+      set_project
       @project.destroy
       if @project.destroy
         head :no_content, status: :ok
