@@ -5,9 +5,8 @@ AllCops:
     - db/migrate/*
     - bin/*
     - Gemfile
-    - config/initializers/i18n.rb
-    - config/routes.rb
-    - config/environments/production.rb
+    - config/**/*
+    - config/*
 
 RSpec/MessageChain:
   Enabled: false
@@ -24,9 +23,6 @@ RSpec/ExampleLength:
 RSpec/MessageSpies:
   Enabled: false
 
-RSpec/NamedSubject:
-  Enabled: false
-
 Metrics/BlockLength:
   Exclude:
     - 'Gemfile'
@@ -39,16 +35,4 @@ Metrics/MethodLength:
   Max: 15
 
 Documentation:
-  Enabled: false
-
-FrozenStringLiteralComment:
-  Enabled: false
-
-Layout/AlignHash:
-  Enabled: false
-
-Style/ClassAndModuleChildren:
-  Enabled: false
-
-Style/Lambda:
   Enabled: false
