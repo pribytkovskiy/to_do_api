@@ -14,13 +14,13 @@ production:
 development:
   <<: *default
   host: 127.0.0.1
-  database: bookstore_development2
+  database: to_do_api
   username: <%= ENV['USERNAME'] %>
   password: <%= ENV['PASSWORD'] %>
 
 test:
   <<: *default
   host: 127.0.0.1
-  database: bookstore_test2
+  database: to_do_api
   username: <%= ENV['USERNAME'] %>
   password: <%= ENV['PASSWORD'] %>
