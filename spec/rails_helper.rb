@@ -7,6 +7,8 @@ ENV['RAILS_ENV'] ||= 'test'
 
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 
+Dir[Rails.root.join("spec/support/**/*.rb")].each { |file| require file }
+
 begin
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
@@ -27,8 +29,6 @@ RSpec.configure do |config|
   config.include Rails.application.routes.url_helpers
 
   config.include FactoryBot::Syntax::Methods
-
-  config.treat_symbols_as_metadata_keys_with_true_values = true
 
   config.filter_run show_in_doc: true if ENV['APIPIE_RECORD']
 end

@@ -2,9 +2,9 @@
 
 FactoryBot.define do
   factory :task do
-    name { Faker::Name.name }
-    status { Faker::Boolean.boolean }
-    date { Faker::Date.between(2.days.ago, Date.today) }
+    name { FFaker::Name.name }
+    status { FFaker::Boolean.boolean }
+    date { FFaker::Date.between(2.days.ago, Date.today) }
     project
   end
 end
