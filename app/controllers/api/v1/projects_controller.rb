@@ -3,7 +3,7 @@
 module Api
   module V1
     class ProjectsController < ApplicationController
-      before_action :authenticate_api_v1_user!
+      before_action :authenticate_request!
       load_and_authorize_resource
 
       resource_description do
@@ -15,7 +15,7 @@ module Api
 
       api :GET, '/projects', "Get all user's projects"
       def index
-        @projects = Project.where(user_id: current_api_v1_user.id)
+        @projects = Project.where(user_id: @current_user.id)
 
         render json: @projects
       end
@@ -32,7 +32,7 @@ module Api
       param :name, String, required: true
       def create
         @project = Project.new(project_params)
-        @project.user_id = current_api_v1_user.id
+        @project.user_id = @current_user.id
         if @project.save
           render json: @project, status: :created
         else

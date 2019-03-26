@@ -9,8 +9,9 @@ gem 'puma', '~> 3.11'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 gem 'acts_as_list'
+gem 'bcrypt'
 gem 'cancancan'
-gem 'devise_token_auth'
+gem 'jwt'
 gem 'apipie-rails'
 gem 'active_model_serializers'
 gem 'rack-cors', require: 'rack/cors'
