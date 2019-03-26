@@ -3,7 +3,7 @@
 module Api
   module V1
     class ProjectsController < ApplicationController
-      before_action :authenticate_user!
+      before_action :authenticate_api_v1_user!
       load_and_authorize_resource
 
       resource_description do
@@ -18,6 +18,14 @@ module Api
         @projects = Project.where(user_id: current_api_v1_user.id)
 
         render json: @projects
+      end
+
+      api :GET, '/v1/projects/:id', "Get specific user's project"
+      param :id, :number
+      def show
+        set_project
+
+        render json: @project
       end
 
       api :POST, '/projects/:id', "Create new user's project"

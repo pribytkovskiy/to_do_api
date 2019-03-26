@@ -1,6 +1,6 @@
 RSpec.describe 'Projects requests', type: :request do
   let(:user) { create(:user) }
-  let(:project) { create(:project, user: user) }
+  let!(:project) { create(:project, user: user) }
   let(:devise_token) { user.create_new_auth_token }
 
   let(:valid_params) { { name: FFaker::Name.name } }
@@ -10,8 +10,7 @@ RSpec.describe 'Projects requests', type: :request do
   describe 'GET /api/v1/projects' do
     context 'logged in user' do
       it 'returns all projects in expected format with status 200', :show_in_doc do
-        authenticate_user(user)
-        get api_v1_projects_path
+        get api_v1_projects_path, headers: devise_token
         expect(response).to have_http_status(200)
         expect(response).to match_response_schema('projects/index')
       end
