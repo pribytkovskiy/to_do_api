@@ -1,0 +1,8 @@
+{
+  "id": "file:/task.json",
+  "type": "object",
+  "required": ["data"],
+  "properties": {
+    "data": { "$ref": "file:/task_singular.json#" }
+  }
+}
