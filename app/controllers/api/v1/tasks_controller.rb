@@ -5,6 +5,8 @@ module Api
       load_and_authorize_resource :project
       load_and_authorize_resource :task, through: :project, shallow: true
 
+      COMMANDS_POSITION = { up: 'up', down: 'down' }
+
       resource_description do
         short "Task's endpoints"
         error 422, 'Unprocessable entity'
@@ -26,22 +28,45 @@ module Api
       api :POST, '/v1/projects/:project_id/tasks', "Create new project's task"
       param :project_id, Fixnum, :name, String, :deadline, :position, :completed
       def create
-        render json: @task, @task.save(task_params) ? created : unprocessable_entity
+        if @task.save(task_params)
+          render json: @task, status: :created
+        else
+          render json: @task.errors, status: :unprocessable_entity
+        end
       end
 
       api :PATCH, '/v1/tasks/:id', 'Update specific task'
-      param :id, Fixnum, :name, String, :deadline, :position, :completed
+      param :id, Fixnum, :name, String, :deadline, String, :position, String, :completed, Boolean
+      param :name, String, required: true
+      param :deadline, String
+      param :position, :number
       def update
-        render json: @task, @task.update(task_params) ? created : unprocessable_entity
+        move if task_params[:move]
+        if @task.update(task_params)
+          render json: @task
+        else
+          render json: @task.errors, status: :unprocessable_entity
+        end
       end
 
       api :DELETE, '/v1/tasks/:id', "Delete specific project's task"
       param :id, Fixnum
       def destroy
-        @task.destroy && head(:no_content)
+        if @task.destroy
+          head :no_content, status: :ok
+        else
+          render json: @task.errors, status: :unprocessable_entity
+        end
       end
 
       private
+
+      def move
+        case task_params[:position]
+        when COMMANDS_POSITION[:up] then @task.move_higher
+        when COMMANDS_POSITION[:down] then @task.move_lower
+        end
+      end
 
       def task_params
         params.require(:task).permit(:name, :deadline, :position, :completed)

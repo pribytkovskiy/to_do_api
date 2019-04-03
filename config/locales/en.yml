@@ -2,3 +2,4 @@ en:
   user_created_successfully: User created successfully
   login_unsuccessfull: Login Unsuccessfull
   invalid_request: Invalid Request
+  file: File size < 10MB

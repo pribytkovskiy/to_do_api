@@ -12,35 +12,45 @@ module Api
         formats %w[json]
       end
 
-      def_param_group :comment do
-        param :data, Hash, required: true do
-          param :attributes, Hash, required: true do
-            param :text, String, required: true
-            param :image, File
-          end
-        end
-      end
-
       api :GET, '/v1/tasks/:task_id/comments', "Get all task's comments"
       def index
-        render json: @comments, **ok
+        render json: @comments, status: :ok
       end
 
       api :POST, '/api/v1/tasks/:task_id/comments', "Create new task's comment"
-      param_group :comment
+      param :text, String, required: true, :image, File
       def create
-        render json: @comment, **(@comment.save(comment_params) ? created : unprocessable_entity)
+        if @comment.save(project_params)
+          render json: @comment, status: :created
+        else
+          render json: @comment.errors, status: :unprocessable_entity
+        end
+      end
+
+      api :PATCH, '/comments/:id', "Update specific user's project"
+      param :id, Fixnum, :name, String
+      def update
+        if @comment.update(comment_params)
+          render :show, status: :ok
+        else
+          render json: @comment.errors, status: :unprocessable_entity
+        end
       end
 
       api :DELETE, '/v1/comments/:id', "Delete specific task's comment"
+      param :id, Fixnum
       def destroy
-        @comment.destroy && head(:no_content)
+        if @comment.destroy
+          head :no_content, status: :ok
+        else
+          render json: @comment.errors, status: :unprocessable_entity
+        end
       end
 
       private
 
       def comment_params
-        root_params.permit(:text, :image)
+        params.require(:comment).permit(:text, :image)
       end
     end
   end
