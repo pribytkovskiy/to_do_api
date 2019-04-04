@@ -19,7 +19,7 @@ module Api
       end
 
       api :GET, '/v1/projects/:id', "Get specific user's project"
-      param :id, Fixnum
+      param :id, :number, desc: 'id of the requested project'
       def show
         render json: @project, status: :ok
       end
@@ -35,7 +35,8 @@ module Api
       end
 
       api :PATCH, '/projects/:id', "Update specific user's project"
-      param :id, Fixnum, :name, String
+      param :id, :number, desc: 'id of the update project'
+      param :name, String, required: true
       def update
         if @project.update(project_params)
           render json: @project, status: :created
@@ -45,7 +46,7 @@ module Api
       end
 
       api :DELETE, '/projects/:id', "Delete specific user's project"
-      param :id, Fixnum
+      param :id, :number, desc: 'id of the destroy project'
       def destroy
         if @project.destroy
           head :no_content, status: :ok

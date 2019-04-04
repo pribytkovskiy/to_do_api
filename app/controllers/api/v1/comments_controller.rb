@@ -18,7 +18,8 @@ module Api
       end
 
       api :POST, '/api/v1/tasks/:task_id/comments', "Create new task's comment"
-      param :text, String, required: true, :image, File
+      param :text, String, required: true
+      param :image, File
       def create
         if @comment.save(project_params)
           render json: @comment, status: :created
@@ -27,8 +28,9 @@ module Api
         end
       end
 
-      api :PATCH, '/comments/:id', "Update specific user's project"
-      param :id, Fixnum, :name, String
+      api :PATCH, '/comments/:id', "Update specific user's comment"
+      param :id, :number, desc: 'id of the update comment'
+      param :name, String
       def update
         if @comment.update(comment_params)
           render :show, status: :ok
@@ -38,7 +40,7 @@ module Api
       end
 
       api :DELETE, '/v1/comments/:id', "Delete specific task's comment"
-      param :id, Fixnum
+      param :id, :number, desc: 'id of the destroy comment'
       def destroy
         if @comment.destroy
           head :no_content, status: :ok
