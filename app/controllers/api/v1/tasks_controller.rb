@@ -20,14 +20,14 @@ module Api
       end
 
       api :GET, '/tasks/:id', "Get specific project's task"
-      param :id, :number, desc: 'id of the requested task'
+      param :id, :number, desc: 'id of the requested task', required: true
       def show
         render json: @task, status: :ok
       end
 
       api :POST, '/projects/:project_id/tasks', "Create new project's task"
       param :project_id, :number, desc: 'project_id of the create task'
-      param :name, String, required: true, desc: 'name task'
+      param :name, String, desc: 'name task', required: true
       param :deadline, String, desc: 'deadline task'
       def create
         if @task.save(task_params)
@@ -38,7 +38,7 @@ module Api
       end
 
       api :PATCH, '/tasks/:id', 'Update specific task'
-      param :id, :number, desc: 'id of the update task'
+      param :id, :number, desc: 'id of the update task', required: true
       param :name, String, required: true
       param :deadline, String
       param :position, String
@@ -53,7 +53,7 @@ module Api
       end
 
       api :DELETE, '/tasks/:id', "Delete specific project's task"
-      param :id, :number, desc: 'id of the destroy task'
+      param :id, :number, desc: 'id of the destroy task', required: true
       def destroy
         if @task.destroy
           head :no_content, status: :ok

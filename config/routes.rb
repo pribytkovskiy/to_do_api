@@ -5,8 +5,6 @@ Rails.application.routes.draw do
       resources :projects, shallow: true do
         resources :tasks do
           resources :comments, only: %i[index create destroy]
-          member { patch :complete }
-          member { patch :position }
         end
       end
       namespace :auth do

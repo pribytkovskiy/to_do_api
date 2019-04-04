@@ -29,7 +29,7 @@ module Api
       end
 
       api :PATCH, '/comments/:id', "Update specific user's comment"
-      param :id, :number, desc: 'id of the update comment'
+      param :id, :number, desc: 'id of the update comment', required: true
       param :name, String
       def update
         if @comment.update(comment_params)
@@ -40,7 +40,7 @@ module Api
       end
 
       api :DELETE, '/comments/:id', "Delete specific task's comment"
-      param :id, :number, desc: 'id of the destroy comment'
+      param :id, :number, desc: 'id of the destroy comment', required: true
       def destroy
         if @comment.destroy
           head :no_content, status: :ok

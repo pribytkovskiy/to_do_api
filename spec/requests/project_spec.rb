@@ -4,9 +4,9 @@ RSpec.describe 'Projects requests', type: :request do
   let(:token) { JsonWebToken.encode({ user_id: user.id }) }
   let(:auth_headers) { { Authorization: token, accept: 'application/json' } }
 
-  let(:valid_params) { { project: { name: FFaker::Name.name } } }
-  let(:invalid_params) { { project: { name: '' } } }
-  let(:valid_update_params) { { project: { name: FFaker::Name.name } } }
+  let(:valid_params) { { name: FFaker::Name.name } }
+  let(:invalid_params) { { name: '' } }
+  let(:valid_update_params) { { name: FFaker::Name.name } }
 
   describe 'GET /api/v1/projects' do
     context 'logged in user' do
