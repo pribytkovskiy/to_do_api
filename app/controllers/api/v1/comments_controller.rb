@@ -12,12 +12,12 @@ module Api
         formats %w[json]
       end
 
-      api :GET, '/v1/tasks/:task_id/comments', "Get all task's comments"
+      api :GET, '/tasks/:task_id/comments', "Get all task's comments"
       def index
         render json: @comments, status: :ok
       end
 
-      api :POST, '/api/v1/tasks/:task_id/comments', "Create new task's comment"
+      api :POST, '/tasks/:task_id/comments', "Create new task's comment"
       param :text, String, required: true
       param :image, File
       def create
@@ -39,7 +39,7 @@ module Api
         end
       end
 
-      api :DELETE, '/v1/comments/:id', "Delete specific task's comment"
+      api :DELETE, '/comments/:id', "Delete specific task's comment"
       param :id, :number, desc: 'id of the destroy comment'
       def destroy
         if @comment.destroy

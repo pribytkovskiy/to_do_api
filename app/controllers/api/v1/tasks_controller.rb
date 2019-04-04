@@ -14,18 +14,18 @@ module Api
         formats %w[json]
       end
 
-      api :GET, '/v1/projects/:project_id/tasks', "Get all project's tasks"
+      api :GET, '/projects/:project_id/tasks', "Get all project's tasks"
       def index
         render json: @tasks.order(:position), status: :ok
       end
 
-      api :GET, '/v1/tasks/:id', "Get specific project's task"
+      api :GET, '/tasks/:id', "Get specific project's task"
       param :id, :number, desc: 'id of the requested task'
       def show
         render json: @task, status: :ok
       end
 
-      api :POST, '/v1/projects/:project_id/tasks', "Create new project's task"
+      api :POST, '/projects/:project_id/tasks', "Create new project's task"
       param :project_id, :number, desc: 'project_id of the create task'
       param :name, String, required: true, desc: 'name task'
       param :deadline, String, desc: 'deadline task'
@@ -37,7 +37,7 @@ module Api
         end
       end
 
-      api :PATCH, '/v1/tasks/:id', 'Update specific task'
+      api :PATCH, '/tasks/:id', 'Update specific task'
       param :id, :number, desc: 'id of the update task'
       param :name, String, required: true
       param :deadline, String
@@ -52,7 +52,7 @@ module Api
         end
       end
 
-      api :DELETE, '/v1/tasks/:id', "Delete specific project's task"
+      api :DELETE, '/tasks/:id', "Delete specific project's task"
       param :id, :number, desc: 'id of the destroy task'
       def destroy
         if @task.destroy
