@@ -21,7 +21,7 @@ module Api
       param :text, String, required: true
       param :image, File
       def create
-        if @comment.save(project_params)
+        if @comment.save(comment_params)
           render json: @comment, status: :created
         else
           render json: @comment.errors, status: :unprocessable_entity

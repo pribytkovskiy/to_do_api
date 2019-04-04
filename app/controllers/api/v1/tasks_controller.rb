@@ -16,13 +16,13 @@ module Api
 
       api :GET, '/v1/projects/:project_id/tasks', "Get all project's tasks"
       def index
-        render json: @tasks.order(:position), :ok
+        render json: @tasks.order(:position), status: :ok
       end
 
       api :GET, '/v1/tasks/:id', "Get specific project's task"
       param :id, :number, desc: 'id of the requested task'
       def show
-        render json: @task, :ok
+        render json: @task, status: :ok
       end
 
       api :POST, '/v1/projects/:project_id/tasks', "Create new project's task"
@@ -42,9 +42,9 @@ module Api
       param :name, String, required: true
       param :deadline, String
       param :position, String
-      param :completed, Boolean
+      param :completed, [true, false], desc: 'array validator with boolean'
       def update
-        move if task_params[:move]
+        move if params[:position]
         if @task.update(task_params)
           render json: @task
         else
@@ -65,14 +65,14 @@ module Api
       private
 
       def move
-        case task_params[:position]
+        case params[:position]
         when COMMANDS_POSITION[:up] then @task.move_higher
         when COMMANDS_POSITION[:down] then @task.move_lower
         end
       end
 
       def task_params
-        params.require(:task).permit(:name, :deadline, :position, :completed)
+        params.require(:task).permit(:name, :deadline, :completed)
       end
     end
   end
