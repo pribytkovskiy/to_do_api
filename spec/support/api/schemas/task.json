@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "properties": {
+    "id": { "type": "number" },
+    "name": { "type": "string" },
+    "completed": { "type": "boolean" },
+    "deadline": { "type": "string" },
+    "position": { "type": "number" },
+    "project": { "type": "object" },
+    "comments": { "type": "array" },
+    "comments_count": { "type": "number" }
+  },
+  "required": ["name", "id"]
+}

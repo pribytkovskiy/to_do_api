@@ -1,19 +1,18 @@
 RSpec.describe 'Projects requests', type: :request do
   let(:user) { create(:user) }
-  let!(:project) { create(:project, user: user) }
+  let(:project) { create(:project, user: user) }
   let(:token) { JsonWebToken.encode({ user_id: user.id }) }
   let(:auth_headers) { { Authorization: token, accept: 'application/json' } }
 
-  let(:valid_params) { { name: FFaker::Name.name } }
+  let(:valid_params) { { project: attributes_for(:project) } }
   let(:invalid_params) { { name: '' } }
-  let(:valid_update_params) { { name: FFaker::Name.name } }
+  let(:valid_update_params) { { name: attributes_for(:project) } }
 
   describe 'GET /api/v1/projects' do
     context 'logged in user' do
       it 'returns all projects in expected format with status 200', :show_in_doc do
         get api_v1_projects_path, headers: auth_headers
         expect(response).to have_http_status(200)
-        expect(response).to match_response_schema('projects/index')
       end
     end
 
@@ -31,7 +30,7 @@ RSpec.describe 'Projects requests', type: :request do
         it 'creates project and returns projects data, corresponding to shema with status created', :show_in_doc do
           post api_v1_projects_path, params: valid_params, headers: auth_headers
           expect(response).to have_http_status(:created)
-          expect(response).to match_response_schema('projects/project')
+          expect(response).to match_json_schema('project')
         end
 
         it 'creates new project record in db' do
@@ -62,12 +61,12 @@ RSpec.describe 'Projects requests', type: :request do
     end
   end
 
-  describe 'GET /api/v1/projects/:id' do
+  describe 'GET /api/v1/:id' do
     context 'logged in user' do
       it 'creates project and returns projects data, corresponding to shema with status created', :show_in_doc do
         get api_v1_project_path(project), headers: auth_headers
         expect(response).to have_http_status(200)
-        expect(response).to match_response_schema('projects/project')
+        expect(response).to match_json_schema('project')
       end
     end
     context 'not logged in user' do
@@ -78,7 +77,7 @@ RSpec.describe 'Projects requests', type: :request do
     end
   end
 
-  describe 'PATCH /api/v1/projects/:id' do
+  describe 'PATCH /api/v1/:id' do
     context 'logged in user' do
       context 'with valid params' do
         it 'updates project record' do
@@ -92,7 +91,7 @@ RSpec.describe 'Projects requests', type: :request do
         it 'returns project with updated data with status ok', :show_in_doc do
           patch api_v1_project_path(project), params: valid_update_params, headers: auth_headers
           expect(response).to have_http_status(:created)
-          expect(response).to match_response_schema('projects/project')
+          expect(response).to match_json_schema('project')
         end
       end
 
@@ -116,7 +115,7 @@ RSpec.describe 'Projects requests', type: :request do
     end
   end
 
-  describe 'DELETE /api/v1/projects/:id' do
+  describe 'DELETE /api/v1/:id' do
     context 'logged in user' do
       it 'deletes project record from db', :show_in_doc do
         project

@@ -1,8 +1,0 @@
-{
-  "id": "file:/project.json",
-  "type": "object",
-  "required": ["data"],
-  "properties": {
-    "data": { "$ref": "file:/project_singular.json#" }
-  }
-}
