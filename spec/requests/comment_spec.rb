@@ -8,9 +8,6 @@ RSpec.describe 'Comments requests', type: :request do
   let(:valid_params) { root_params(text: FFaker::Lorem.sentence) }
   let(:invalid_params) { root_params(text: '') }
 
-  def root_params(nested_params)
-    { data: { attributes: nested_params } }
-  end
 
   describe 'GET /api/v1/tasks/:task_id/comments' do
     context 'logged in user' do

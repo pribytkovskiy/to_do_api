@@ -3,8 +3,9 @@
 FactoryBot.define do
   factory :task do
     name { FFaker::Name.name }
-    status { FFaker::Boolean.boolean }
-    date { FFaker::Date.between(2.days.ago, Date.today) }
+    completed { FFaker::Boolean.boolean }
+    deadline { FFaker::Date.between(2.days.ago, Date.today) }
+    position
     project
   end
 end

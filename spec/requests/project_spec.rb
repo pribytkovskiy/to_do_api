@@ -5,8 +5,8 @@ RSpec.describe 'Projects requests', type: :request do
   let(:auth_headers) { { Authorization: token, accept: 'application/json' } }
 
   let(:valid_params) { { project: attributes_for(:project) } }
-  let(:invalid_params) { { name: '' } }
-  let(:valid_update_params) { { name: attributes_for(:project) } }
+  let(:invalid_params) { { project: { name: '' } } }
+  let(:valid_update_params) { { project: attributes_for(:project) } }
 
   describe 'GET /api/v1/projects' do
     context 'logged in user' do
