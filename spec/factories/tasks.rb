@@ -3,9 +3,13 @@
 FactoryBot.define do
   factory :task do
     name { FFaker::Name.name }
-    completed { FFaker::Boolean.boolean }
-    deadline { FFaker::Date.between(2.days.ago, Date.today) }
-    position
+    completed { FFaker::Boolean.random }
+    deadline { DateTime.now }
+    position { FFaker::Random.rand(2..9) }
     project
+  end
+
+  factory :task_completed_true, parent: :task  do
+    completed  { true }
   end
 end
