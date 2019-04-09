@@ -26,9 +26,11 @@ module Api
       end
 
       api :POST, '/projects/:project_id/tasks', "Create new project's task"
-      param :project_id, :number, desc: 'project_id of the create task'
-      param :name, String, desc: 'name task', required: true
-      param :deadline, String, desc: 'deadline task'
+      param :task, Hash, required: true do
+        param :project_id, :number, desc: 'project_id of the create task'
+        param :name, String, desc: 'name task', required: true
+        param :deadline, String, desc: 'deadline task'
+      end
       def create
         if @task.save(task_params)
           render json: @task, status: :created
@@ -38,15 +40,16 @@ module Api
       end
 
       api :PATCH, '/tasks/:id', 'Update specific task'
-      param :id, :number, desc: 'id of the update task', required: true
-      param :name, String, required: true
-      param :deadline, String
-      param :position, String
-      param :completed, [true, false], desc: 'array validator with boolean'
+      param :task, Hash, required: true do
+        param :name, String
+        param :deadline, String
+        param :position, String
+        param :completed, :boolean
+      end
       def update
         move if params[:position]
         if @task.update(task_params)
-          render json: @task
+          render json: @task, status: :created
         else
           render json: @task.errors, status: :unprocessable_entity
         end

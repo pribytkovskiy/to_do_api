@@ -25,7 +25,9 @@ module Api
       end
 
       api :POST, '/projects/:id', "Create new user's project"
-      param :name, String, required: true
+      param :project, Hash, required: true do
+        param :name, String, required: true
+      end
       def create
         if @project.save(project_params)
           render json: @project, status: :created
@@ -35,8 +37,9 @@ module Api
       end
 
       api :PATCH, '/projects/:id', "Update specific user's project"
-      param :id, :number, desc: 'id of the update project', required: true
-      param :name, String, required: true
+      param :project, Hash, required: true do
+        param :name, String, required: true
+      end
       def update
         if @project.update(project_params)
           render json: @project, status: :created

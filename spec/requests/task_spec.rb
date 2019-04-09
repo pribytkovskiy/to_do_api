@@ -8,9 +8,9 @@ RSpec.describe 'Tasks requests', type: :request do
 
   let(:valid_params) { { task: attributes_for(:task) } }
   let(:invalid_params) { { task: { name: '' } } }
-  let(:valid_update_params) { { task: attributes_for(:task) } }
-  let(:valid_update_params_false) { { task: { completed: 'false' } } }
-  let(:up_position_params) { { task: { position: Api::V1::TasksController::COMMANDS_POSITION[:up] } } }
+  let(:valid_update_params) { { task: { name: FFaker::Name.name } } }
+  let(:valid_update_params_false) { { task: { completed: false } } }
+  let(:up_position_params) { { task: { position: Api::V1::TasksController::COMMANDS_POSITION[:up] }, position: true } }
 
   describe 'GET /tasks/:id' do
     context 'logged in user' do
@@ -88,7 +88,7 @@ RSpec.describe 'Tasks requests', type: :request do
       context 'with valid params' do
         it 'updates task record name' do
           name_before = task.name
-          name_after = valid_update_params[:name]
+          name_after = valid_update_params[:task][:name]
           expect { patch api_v1_task_path(task), params: valid_update_params, headers: auth_headers }.to(
             change { project.tasks.first.name }.from(name_before).to(name_after)
           )
@@ -96,17 +96,8 @@ RSpec.describe 'Tasks requests', type: :request do
 
         it 'updates task record completed' do
           task_completed_true
-          expect { patch api_v1_task_path(task_completed_true), params: valid_update_params_false, headers: auth_headers }.to(
-            change { project.tasks.first.completed }.from(true).to(false)
-          )
-        end
-
-        it 'updates position of the task record' do
-          task
-          after_position = project.tasks.first.position
-          expect { patch patch api_v1_task_path(task), params: up_position_params, headers: auth_headers }.to(
-            change { project.tasks.first.position }.from(after_position).to(after_position - 1)
-          )
+          patch api_v1_task_path(task_completed_true), params: valid_update_params_false, headers: auth_headers
+          expect(project.tasks.first.completed).to eq(false)
         end
 
         it 'returns updated task data with status ok', :show_in_doc do

@@ -18,8 +18,10 @@ module Api
       end
 
       api :POST, '/tasks/:task_id/comments', "Create new task's comment"
-      param :text, String, required: true
-      param :image, File
+      param :comment, Hash, required: true do
+        param :text, String, required: true
+        param :image, File
+      end
       def create
         if @comment.save(comment_params)
           render json: @comment, status: :created
@@ -29,8 +31,9 @@ module Api
       end
 
       api :PATCH, '/comments/:id', "Update specific user's comment"
-      param :id, :number, desc: 'id of the update comment', required: true
-      param :name, String
+      param :comment, Hash, required: true do
+        param :text, String
+      end
       def update
         if @comment.update(comment_params)
           render :show, status: :ok

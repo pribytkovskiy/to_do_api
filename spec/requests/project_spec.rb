@@ -6,7 +6,7 @@ RSpec.describe 'Projects requests', type: :request do
 
   let(:valid_params) { { project: attributes_for(:project) } }
   let(:invalid_params) { { project: { name: '' } } }
-  let(:valid_update_params) { { project: attributes_for(:project) } }
+  let(:valid_params) { { project: { name: FFaker::Name.name } } }
 
   describe 'GET /api/v1/projects' do
     context 'logged in user' do
@@ -82,14 +82,14 @@ RSpec.describe 'Projects requests', type: :request do
       context 'with valid params' do
         it 'updates project record' do
           name_before = project.name
-          name_after = valid_update_params[:name]
-          expect { patch api_v1_project_path(project), params: valid_update_params, headers: auth_headers}.to(
+          name_after = valid_params[:project][:name]
+          expect { patch api_v1_project_path(project), params: valid_params, headers: auth_headers}.to(
             change { user.projects.first.name }.from(name_before).to(name_after)
           )
         end
 
         it 'returns project with updated data with status ok', :show_in_doc do
-          patch api_v1_project_path(project), params: valid_update_params, headers: auth_headers
+          patch api_v1_project_path(project), params: valid_params, headers: auth_headers
           expect(response).to have_http_status(:created)
           expect(response).to match_json_schema('project')
         end
@@ -97,7 +97,7 @@ RSpec.describe 'Projects requests', type: :request do
 
       context 'with invalid params' do
         it 'does nothing with db' do
-          patch api_v1_project_path(project), params: valid_update_params, headers: auth_headers
+          patch api_v1_project_path(project), params: valid_params, headers: auth_headers
           expect user.projects.first.name = valid_params[:name]
         end
 

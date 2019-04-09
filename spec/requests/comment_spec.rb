@@ -6,7 +6,7 @@ RSpec.describe 'Comments requests', type: :request do
   let(:token) { JsonWebToken.encode({ user_id: user.id }) }
   let(:auth_headers) { { Authorization: token, accept: 'application/json' } }
 
-  let(:valid_params) { { comment: attributes_for(:task) } }
+  let(:valid_params) { { comment: { text: FFaker::Name.name } } }
   let(:invalid_params) { { comment: { text: '' } } }
 
 
@@ -32,6 +32,7 @@ RSpec.describe 'Comments requests', type: :request do
     context 'logged in user' do
       context 'with valid params' do
         it 'creates new task record in db and returns status created', :show_in_doc do
+          #binding.pry
           expect { post api_v1_task_comments_path(task), params: valid_params, headers: auth_headers }.to(
             change { Comment.count }.from(0).to(1)
           )
