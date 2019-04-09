@@ -3,6 +3,8 @@
 class Comment < ApplicationRecord
   belongs_to :task
 
+  mount_uploader :image, ImageUploader
+
   TEXT_LENGTH_RANGE = (10..256).freeze
   FILE_SIZE = 10.megabytes
 
