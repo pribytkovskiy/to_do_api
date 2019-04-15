@@ -12,6 +12,8 @@ jobs:
           PGHOST: 127.0.0.1
           PGUSER: root
           USERNAME: root
+          GOOGLE_KEY_ID: 'Test'
+          GOOGLE_ACCESS_KEY: 'Test'
     
     # Service container image available at `host: localhost`
     
