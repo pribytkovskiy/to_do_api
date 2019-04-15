@@ -21,6 +21,7 @@ module Api
       param :comment, Hash, required: true do
         param :text, String, required: true
         param :image, File
+        param :image_cache, File
       end
       def create
         if @comment.save(comment_params)
@@ -33,6 +34,8 @@ module Api
       api :PATCH, '/comments/:id', "Update specific user's comment"
       param :comment, Hash, required: true do
         param :text, String
+        param :image, File
+        param :image_cache, File
       end
       def update
         if @comment.update(comment_params)
@@ -55,7 +58,7 @@ module Api
       private
 
       def comment_params
-        params.require(:comment).permit(:text, :image)
+        params.require(:comment).permit(:text, :image, :image_cache)
       end
     end
   end

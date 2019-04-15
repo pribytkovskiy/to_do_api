@@ -12,6 +12,8 @@ gem 'acts_as_list'
 gem 'bcrypt'
 gem 'cancancan'
 gem 'carrierwave'
+gem 'fog'
+gem 'google-cloud-storage', '~> 1.8', require: false
 gem 'jwt'
 gem 'mini_magick'
 gem 'apipie-rails'
