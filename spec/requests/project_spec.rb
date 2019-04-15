@@ -4,9 +4,10 @@ RSpec.describe 'Projects requests', type: :request do
   let(:token) { JsonWebToken.encode({ user_id: user.id }) }
   let(:auth_headers) { { Authorization: token, accept: 'application/json' } }
 
-  let(:valid_params) { { project: attributes_for(:project) } }
-  let(:invalid_params) { { project: { name: '' } } }
-  let(:valid_params) { { project: { name: FFaker::Name.name } } }
+  let(:invalid_params) { { project: { name: '', id: project.id } } }
+  let(:invalid_params_for_create) { { project: { name: '' } } }
+  let(:valid_params) { { project: { name: FFaker::Name.name, id: project.id } } }
+  let(:valid_params_for_create) { { project: { name: FFaker::Name.name } } }
 
   describe 'GET /api/v1/projects' do
     context 'logged in user' do
@@ -34,7 +35,7 @@ RSpec.describe 'Projects requests', type: :request do
         end
 
         it 'creates new project record in db' do
-          expect { post api_v1_projects_path, params: valid_params, headers: auth_headers }.to(
+          expect { post api_v1_projects_path, params: valid_params_for_create, headers: auth_headers }.to(
             change { Project.count }.from(0).to(1)
           )
         end
@@ -47,7 +48,7 @@ RSpec.describe 'Projects requests', type: :request do
         end
 
         it 'does nothing with db' do
-          post api_v1_projects_path, params: invalid_params, headers: auth_headers
+          post api_v1_projects_path, params: invalid_params_for_create, headers: auth_headers
           expect(Project.count).to eq(0)
         end
       end

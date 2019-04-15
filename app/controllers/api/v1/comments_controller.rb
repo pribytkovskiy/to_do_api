@@ -19,6 +19,7 @@ module Api
 
       api :POST, '/tasks/:task_id/comments', "Create new task's comment"
       param :comment, Hash, required: true do
+        param :task_id, :number, required: true
         param :text, String, required: true
         param :image, File
         param :image_cache, File
@@ -33,6 +34,7 @@ module Api
 
       api :PATCH, '/comments/:id', "Update specific user's comment"
       param :comment, Hash, required: true do
+        param :id, :number, required: true
         param :text, String
         param :image, File
         param :image_cache, File

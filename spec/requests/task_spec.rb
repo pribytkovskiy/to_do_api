@@ -7,9 +7,12 @@ RSpec.describe 'Tasks requests', type: :request do
   let(:auth_headers) { { Authorization: token, accept: 'application/json' } }
 
   let(:valid_params) { { task: attributes_for(:task) } }
+  let(:valid_params_for_create) { { task: { name: FFaker::Name.name, project_id: project.id } } }
+  let(:invalid_params_for_create) { { task: { name: '', project_id: project.id } } }
   let(:invalid_params) { { task: { name: '' } } }
-  let(:valid_update_params) { { task: { name: FFaker::Name.name } } }
-  let(:valid_update_params_false) { { task: { completed: false } } }
+  let(:invalid_params_for_update) { { task: { name: '', id: task.id } } }
+  let(:valid_update_params) { { task: { name: FFaker::Name.name, id: task.id } } }
+  let(:valid_update_params_false) { { task: { completed: false, id: task.id } } }
   let(:up_position_params) { { task: { position: Api::V1::TasksController::COMMANDS_POSITION[:up] }, position: true } }
 
   describe 'GET /tasks/:id' do
@@ -50,13 +53,13 @@ RSpec.describe 'Tasks requests', type: :request do
     context 'logged in user' do
       context 'with valid params' do
         it 'creates new task, returns tasks data, corresponding to shema with status created', :show_in_doc do
-          post api_v1_project_tasks_path(project), params: valid_params, headers: auth_headers
+          post api_v1_project_tasks_path(project), params: valid_params_for_create, headers: auth_headers
           expect(response).to have_http_status :created
           expect(response).to match_json_schema('task')
         end
 
         it 'creates new task record in db' do
-          expect { post api_v1_project_tasks_path(project), params: valid_params, headers: auth_headers }.to(
+          expect { post api_v1_project_tasks_path(project), params: valid_params_for_create, headers: auth_headers }.to(
             change { Task.count }.from(0).to(1)
           )
         end
@@ -64,7 +67,7 @@ RSpec.describe 'Tasks requests', type: :request do
 
       context 'with invalid params' do
         it 'returns errors object with status unprocessable entity', :show_in_doc do
-          post api_v1_project_tasks_path(project), params: invalid_params, headers: auth_headers
+          post api_v1_project_tasks_path(project), params: invalid_params_for_create, headers: auth_headers
           expect(response).to have_http_status :unprocessable_entity
         end
 
@@ -114,7 +117,7 @@ RSpec.describe 'Tasks requests', type: :request do
         end
 
         it 'returns errors object with status unprocessable entity', :show_in_doc do
-          patch api_v1_task_path(task), params: invalid_params, headers: auth_headers
+          patch api_v1_task_path(task), params: invalid_params_for_update, headers: auth_headers
           expect(response).to have_http_status :unprocessable_entity
         end
       end

@@ -38,6 +38,7 @@ module Api
 
       api :PATCH, '/projects/:id', "Update specific user's project"
       param :project, Hash, required: true do
+        param :id, :number, required: true
         param :name, String, required: true
       end
       def update

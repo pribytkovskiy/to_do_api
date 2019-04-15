@@ -27,9 +27,10 @@ module Api
 
       api :POST, '/projects/:project_id/tasks', "Create new project's task"
       param :task, Hash, required: true do
-        param :project_id, :number, desc: 'project_id of the create task'
+        param :project_id, :number, required: true
         param :name, String, desc: 'name task', required: true
         param :deadline, String, desc: 'deadline task'
+        param :completed, :boolean
       end
       def create
         if @task.save(task_params)
@@ -41,6 +42,7 @@ module Api
 
       api :PATCH, '/tasks/:id', 'Update specific task'
       param :task, Hash, required: true do
+        param :id, :number, required: true
         param :name, String
         param :deadline, String
         param :position, String
