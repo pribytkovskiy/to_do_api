@@ -7,7 +7,7 @@ RSpec.describe 'Comments requests', type: :request do
   let(:auth_headers) { { Authorization: token, accept: 'application/json' } }
 
   let(:valid_params) { { comment: { text: FFaker::Name.name, task_id: task.id } } }
-  let(:invalid_params) { { comment: { text: '' } } }
+  let(:invalid_params) { { comment: { text: '', task_id: task.id } } }
 
 
   describe 'GET /api/v1/tasks/:task_id/comments' do

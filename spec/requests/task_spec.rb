@@ -9,7 +9,7 @@ RSpec.describe 'Tasks requests', type: :request do
   let(:valid_params) { { task: attributes_for(:task) } }
   let(:valid_params_for_create) { { task: { name: FFaker::Name.name, project_id: project.id } } }
   let(:invalid_params_for_create) { { task: { name: '', project_id: project.id } } }
-  let(:invalid_params) { { task: { name: '' } } }
+  let(:invalid_params) { { task: { name: '', project_id: project.id } } }
   let(:invalid_params_for_update) { { task: { name: '', id: task.id } } }
   let(:valid_update_params) { { task: { name: FFaker::Name.name, id: task.id } } }
   let(:valid_update_params_false) { { task: { completed: false, id: task.id } } }
