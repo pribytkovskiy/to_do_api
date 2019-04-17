@@ -8,10 +8,17 @@ gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
 gem 'bootsnap', '>= 1.1.0', require: false
 
-gem 'devise_token_auth'
+gem 'acts_as_list'
+gem 'bcrypt'
+gem 'cancancan'
+gem 'carrierwave'
+gem 'fog'
+gem 'google-cloud-storage', '~> 1.8', require: false
+gem 'jwt'
+gem 'mini_magick'
 gem 'apipie-rails'
 gem 'active_model_serializers'
-gem 'rack-cors'
+gem 'rack-cors', require: 'rack/cors'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -23,6 +30,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'simplecov'
   gem 'simplecov-lcov'
+  gem 'shoulda-matchers'
   gem 'undercover'
   gem 'json_matchers'
 end

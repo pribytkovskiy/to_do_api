@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "properties": {
+    "id": { "type": "number" },
+    "name": { "type": "string" },
+    "tasks": { "type": "array" },
+    "user": { "type": "object" }
+  },
+  "required": ["name", "id"]
+}

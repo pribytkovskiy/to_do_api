@@ -1,0 +1,12 @@
+{
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": { "type": "number" },
+      "text": { "type": "string" },
+      "image": { "type": "string" },
+      "task": { "type": "object" }
+    },
+    "required": ["text", "id"]
+  }
+}

@@ -2,12 +2,12 @@ require: rubocop-rspec
 AllCops:
   Excludes:
     - db/*
-    - db/migrate/*
+    - db/**/*
     - bin/*
     - Gemfile
-    - config/initializers/i18n.rb
-    - config/routes.rb
-    - config/environments/production.rb
+    - config/**/*
+    - config/*
+    - spec/rails_helper.rb
 
 RSpec/MessageChain:
   Enabled: false
@@ -24,9 +24,6 @@ RSpec/ExampleLength:
 RSpec/MessageSpies:
   Enabled: false
 
-RSpec/NamedSubject:
-  Enabled: false
-
 Metrics/BlockLength:
   Exclude:
     - 'Gemfile'
@@ -41,14 +38,5 @@ Metrics/MethodLength:
 Documentation:
   Enabled: false
 
-FrozenStringLiteralComment:
-  Enabled: false
-
-Layout/AlignHash:
-  Enabled: false
-
-Style/ClassAndModuleChildren:
-  Enabled: false
-
-Style/Lambda:
+RSpec/ContextWording:
   Enabled: false
